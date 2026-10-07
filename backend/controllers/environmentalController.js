@@ -239,7 +239,7 @@ const getEnvironmentalData = (req, res) => {
     );
 };
 
-const getEnvironmentalSummary = (req, res) => {
+const getEnvironmentalSummary = async(req, res) => {
 
     const { projectId, year } = req.params;
 

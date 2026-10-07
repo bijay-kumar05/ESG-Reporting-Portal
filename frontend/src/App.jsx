@@ -9,7 +9,11 @@ import Workflow from "./pages/Workflow";
 import Reports from "./pages/Reports";
 import BRSRGeneral from "./pages/BRSRGeneral";
 import ProjectOverview from "./pages/ProjectOverview";
-
+import BRSRDashboard from "./pages/BRSRDashboard";
+import BRSREnvironmental from "./pages/BRSREnvironmental";
+import BRSRSocial from "./pages/BRSRSocial";
+import BRSRGovernance from "./pages/BRSRGovernance";
+import BRSRReport from "./pages/BRSRReport";
 function App() {
 
     const [loggedIn, setLoggedIn] = useState(
@@ -117,13 +121,68 @@ function App() {
 
 
     // BRSR
-    if (currentPage === "brsr-general") {
-        return (
-            <BRSRGeneral
-                onBack={() => setCurrentPage("dashboard")}
-            />
-        );
-    }
+    if (currentPage === "brsr-dashboard") {
+    return (
+        <BRSRDashboard
+            onBack={() => setCurrentPage("dashboard")}
+            onOpenGeneral={() =>
+                setCurrentPage("brsr-general")
+            }
+            onOpenEnvironmental={() =>
+                setCurrentPage("brsr-environmental")
+            }
+            onOpenSocial={() =>
+                setCurrentPage("brsr-social")
+            }
+            onOpenGovernance={() =>
+                setCurrentPage("brsr-governance")
+            }
+            onOpenReport={() =>
+                setCurrentPage("brsr-report")
+            }
+        />
+    );
+}
+
+if (currentPage === "brsr-environmental") {
+    return (
+        <BRSREnvironmental
+            onBack={() => setCurrentPage("brsr-dashboard")}
+        />
+    );
+}
+
+if (currentPage === "brsr-social") {
+    return (
+        <BRSRSocial
+            onBack={() => setCurrentPage("brsr-dashboard")}
+        />
+    );
+}
+
+if (currentPage === "brsr-governance") {
+    return (
+        <BRSRGovernance
+            onBack={() => setCurrentPage("brsr-dashboard")}
+        />
+    );
+}
+
+if (currentPage === "brsr-report") {
+    return (
+        <BRSRReport
+            onBack={() => setCurrentPage("brsr-dashboard")}
+        />
+    );
+}
+
+if (currentPage === "brsr-general") {
+    return (
+        <BRSRGeneral
+            onBack={() => setCurrentPage("brsr-dashboard")}
+        />
+    );
+}
 
 
    // DASHBOARD

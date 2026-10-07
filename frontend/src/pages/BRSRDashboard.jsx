@@ -7,7 +7,7 @@ import {
     ClipboardCheck
 } from "lucide-react";
 
-function BRSRDashboard({ onBack, onOpenGeneral }) {
+function BRSRDashboard({ onBack, onOpenGeneral,onOpenEnvironmental,onOpenSocial,onOpenGovernance,onOpenReport}) {
 
     const modules = [
         {
@@ -24,7 +24,7 @@ function BRSRDashboard({ onBack, onOpenGeneral }) {
                 "BRSR environmental information from ESG data.",
             icon: Leaf,
             color: "green",
-            action: () => {}
+            action: onOpenEnvironmental
         },
         {
             title: "Social Disclosures",
@@ -32,7 +32,7 @@ function BRSRDashboard({ onBack, onOpenGeneral }) {
                 "BRSR social information from ESG data.",
             icon: Users,
             color: "purple",
-            action: () => {}
+            action: onOpenSocial
         },
         {
             title: "Governance Disclosures",
@@ -40,7 +40,7 @@ function BRSRDashboard({ onBack, onOpenGeneral }) {
                 "BRSR governance information from ESG data.",
             icon: ShieldCheck,
             color: "orange",
-            action: () => {}
+            action: onOpenGovernance
         },
         {
             title: "BRSR Report",
@@ -48,7 +48,7 @@ function BRSRDashboard({ onBack, onOpenGeneral }) {
                 "Review and generate the complete BRSR report.",
             icon: ClipboardCheck,
             color: "indigo",
-            action: () => {}
+            action:  onOpenReport
         }
     ];
 
@@ -149,7 +149,11 @@ function BRSRDashboard({ onBack, onOpenGeneral }) {
                                     onClick={module.action}
                                     className="mt-5 w-full px-4 py-3 rounded-lg bg-slate-800 text-white font-medium hover:bg-slate-700 transition"
                                 >
-                                    {module.title === "General Disclosures"
+                                    {module.title === "General Disclosures" ||
+                                    module.title === "Environmental Disclosures"||
+                                    module.title === "Social Disclosures"||
+                                    module.title === "Governance Disclosures"||
+                                    module.title === "BRSR Report"
                                         ? "Open"
                                         : "Coming Next"}
                                 </button>

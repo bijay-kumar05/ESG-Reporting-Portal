@@ -508,7 +508,7 @@ const fetchGovernanceSummary = async () => {
                     {/* BRSR */}
 
 <button
-    onClick={() => onNavigate("brsr-general")}
+    onClick={() => onNavigate("brsr-dashboard")}
     className="w-full text-left p-4 rounded-xl border border-gray-200 hover:bg-slate-800 transition"
 >
     <div className="flex items-center gap-3">
