@@ -199,7 +199,10 @@ return (
             ) {
                 setModuleBackPage("dashboard");
             }
-
+            if (page === "brsr-report") {
+                setCurrentPage("brsr-report");
+                return;
+            }
             setCurrentPage(page);
         }}
 

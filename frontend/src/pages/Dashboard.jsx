@@ -45,6 +45,8 @@ function Dashboard({ onLogout, onNavigate }) {
 
     const [governanceSummary, setGovernanceSummary] = useState(null);
 
+    const [workflowStatus, setWorkflowStatus] = useState(null);
+
     const [selectedProject, setSelectedProject] =
         useState("");
 
@@ -294,6 +296,53 @@ const fetchGovernanceSummary = async () => {
 
 };
 
+// =========================
+// FETCH WORKFLOW STATUS
+// =========================
+
+const fetchWorkflowStatus = async () => {
+
+    if (!selectedProject) {
+        return;
+    }
+
+    try {
+
+        const token = localStorage.getItem("token");
+
+        const response = await axios.get(
+            `http://localhost:5000/api/workflow/${selectedProject}/${selectedYear}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        console.log(
+            "WORKFLOW STATUS:",
+            response.data
+        );
+
+        setWorkflowStatus(
+            response.data?.status ||
+            response.data?.data?.status ||
+            null
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Failed to fetch workflow status:",
+            error
+        );
+
+        setWorkflowStatus(null);
+
+    }
+
+};
+
     // =========================
     // INITIAL LOAD
     // =========================
@@ -317,6 +366,7 @@ const fetchGovernanceSummary = async () => {
         fetchEnvironmentalSummary();
         fetchSocialSummary();
         fetchGovernanceSummary();
+        fetchWorkflowStatus();
     }
 
     }, [selectedProject, selectedYear]);
@@ -351,6 +401,29 @@ const fetchGovernanceSummary = async () => {
         ]
         : [];
 
+
+        const workflowChartData = [
+    {
+        name: "Draft",
+        count: workflowStatus === "DRAFT" ? 1 : 0
+    },
+    {
+        name: "Submitted",
+        count: workflowStatus === "SUBMITTED" ? 1 : 0
+    },
+    {
+        name: "Under Review",
+        count: workflowStatus === "UNDER_REVIEW" ? 1 : 0
+    },
+    {
+        name: "Approved",
+        count: workflowStatus === "APPROVED" ? 1 : 0
+    },
+    {
+        name: "Locked",
+        count: workflowStatus === "LOCKED" ? 1 : 0
+    }
+];
 
     return (
 
@@ -1582,139 +1655,131 @@ const fetchGovernanceSummary = async () => {
 
                     {/* ================= OVERVIEW + STATUS ================= */}
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-6">
+                    <div className="mt-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
 
-                        {/* ESG Reporting Overview */}
+                            {/* ESG Reporting Overview */}
 
-                        <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border p-6">
+                            <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border p-6">
 
-                            <div className="flex justify-between items-center mb-6">
+                                <div className="flex justify-between items-center mb-6">
 
-                                <div>
+                                    <div>
 
-                                    <h2 className="text-lg font-semibold text-slate-800">
-                                        ESG Reporting Overview
-                                    </h2>
+                                        <h2 className="text-lg font-semibold text-slate-800">
+                                            ESG Reporting Overview
+                                        </h2>
 
-                                    <p className="text-sm text-slate-500">
-                                        Reporting activity
-                                    </p>
+                                        <p className="text-sm text-slate-500">
+                                            Reporting activity
+                                        </p>
+
+                                    </div>
+
+                                    <span className="text-sm text-slate-500">
+                                        {selectedYear}
+                                    </span>
 
                                 </div>
 
-                                <span className="text-sm text-slate-500">
-                                    {selectedYear}
-                                </span>
+
+                                <div className="h-56">
+
+                                    <ResponsiveContainer
+                                        width="100%"
+                                        height="100%"
+                                    >
+
+                                        <BarChart
+                                            data={workflowChartData}
+                                        >
+
+                                            <CartesianGrid
+                                                strokeDasharray="3 3"
+                                            />
+
+                                            <XAxis
+                                                dataKey="name"
+                                            />
+
+                                            <YAxis
+                                                allowDecimals={false}
+                                            />
+
+                                            <Tooltip />
+
+                                            <Bar
+                                                dataKey="count"
+                                                fill="#10b981"
+                                                radius={[6, 6, 0, 0]}
+                                            />
+
+                                        </BarChart>
+
+                                    </ResponsiveContainer>
+
+                                </div>
 
                             </div>
 
 
-                            <div className="h-56 flex items-center justify-center border-2 border-dashed rounded-lg">
+                            {/* Submission Status */}
 
-                                <div className="text-center">
+                            <div className="bg-white rounded-xl shadow-sm border p-6">
 
-                                    <BarChart3
-                                        size={45}
-                                        className="mx-auto text-slate-300"
-                                    />
+                                <h2 className="text-lg font-semibold text-slate-800">
+                                    Submission Status
+                                </h2>
 
-                                    <p className="text-slate-400 mt-3">
-                                        ESG reporting workflow chart will appear here
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </div>
+                                <p className="text-sm text-slate-500 mb-6">
+                                    Current reporting workflow
+                                </p>
 
 
-                        {/* Submission Status */}
+                                <div className="space-y-4">
 
-                        <div className="bg-white rounded-xl shadow-sm border p-6">
+                                    {/* Current Status */}
 
-                            <h2 className="text-lg font-semibold text-slate-800">
-                                Submission Status
-                            </h2>
+                                    <div className="bg-slate-50 rounded-xl p-5">
 
-                            <p className="text-sm text-slate-500 mb-6">
-                                Current reporting workflow
-                            </p>
+                                        <p className="text-sm text-slate-500">
+                                            Current Status
+                                        </p>
 
-
-                            <div className="space-y-5">
-
-
-                                {/* Draft */}
-
-                                <div>
-
-                                    <div className="flex justify-between text-sm mb-2">
-
-                                        <span>
-                                            Draft
-                                        </span>
-
-                                        <span>
-                                            0
-                                        </span>
+                                        <p className="text-2xl font-bold text-slate-800 mt-2">
+                                            {workflowStatus
+                                                ? workflowStatus.replace("_", " ")
+                                                : "Not Started"}
+                                        </p>
 
                                     </div>
 
-                                    <div className="h-2 bg-slate-100 rounded-full">
 
-                                        <div className="h-2 bg-slate-400 rounded-full w-0"></div>
+                                    {/* Status Indicator */}
 
-                                    </div>
+                                    <div className="flex items-center gap-3">
 
-                                </div>
+                                        <div
+                                            className={`w-3 h-3 rounded-full ${
+                                                workflowStatus === "APPROVED" ||
+                                                workflowStatus === "LOCKED"
+                                                    ? "bg-emerald-500"
+                                                    : workflowStatus === "UNDER_REVIEW"
+                                                    ? "bg-orange-400"
+                                                    : workflowStatus === "SUBMITTED"
+                                                    ? "bg-blue-500"
+                                                    : workflowStatus === "REJECTED"
+                                                    ? "bg-red-500"
+                                                    : "bg-slate-400"
+                                            }`}
+                                        />
 
-
-                                {/* Under Review */}
-
-                                <div>
-
-                                    <div className="flex justify-between text-sm mb-2">
-
-                                        <span>
-                                            Under Review
+                                        <span className="text-sm text-slate-600">
+                                            {workflowStatus
+                                                ? `Report is currently ${workflowStatus.replace("_", " ").toLowerCase()}`
+                                                : "No submission has been created yet."}
                                         </span>
-
-                                        <span>
-                                            0
-                                        </span>
-
-                                    </div>
-
-                                    <div className="h-2 bg-slate-100 rounded-full">
-
-                                        <div className="h-2 bg-orange-400 rounded-full w-0"></div>
-
-                                    </div>
-
-                                </div>
-
-
-                                {/* Approved */}
-
-                                <div>
-
-                                    <div className="flex justify-between text-sm mb-2">
-
-                                        <span>
-                                            Approved
-                                        </span>
-
-                                        <span>
-                                            0
-                                        </span>
-
-                                    </div>
-
-                                    <div className="h-2 bg-slate-100 rounded-full">
-
-                                        <div className="h-2 bg-emerald-500 rounded-full w-0"></div>
 
                                     </div>
 
@@ -1723,7 +1788,6 @@ const fetchGovernanceSummary = async () => {
                             </div>
 
                         </div>
-
                     </div>
 
 
@@ -1941,6 +2005,8 @@ const fetchGovernanceSummary = async () => {
                             {/* BRSR */}
 
                             <button
+                             onClick={() =>
+                                 onNavigate("brsr-report")}
                                 className="p-4 border rounded-lg text-left hover:border-emerald-500 hover:bg-emerald-50"
                             >
 
@@ -1959,7 +2025,8 @@ const fetchGovernanceSummary = async () => {
 
                             {/* Generate Report */}
 
-                            <button
+                            <button onClick={() => 
+                                onNavigate("reports")}
                                 className="p-4 border rounded-lg text-left hover:border-emerald-500 hover:bg-emerald-50"
                             >
 

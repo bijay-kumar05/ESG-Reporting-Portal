@@ -38,184 +38,237 @@ const getReportData = (projectId, year) => {
             report.project = projectResults[0];
 
             // ------------------------------------------------
-            // 2. ENVIRONMENTAL DATA
+            // 2. BRSR GENERAL DISCLOSURES
             // ------------------------------------------------
 
-            const environmentalSQL = `
-                SELECT *
-                FROM environmental_data
-                WHERE project_id = ?
-                AND reporting_year = ?
+            const generalSQL = `
+                SELECT
+                    id,
+                    organization_id,
+                    cin,
+                    entity_name,
+                    year_of_incorporation,
+                    registered_office_address,
+                    corporate_address,
+                    email,
+                    telephone,
+                    website,
+                    reporting_financial_year,
+                    stock_exchange,
+                    paid_up_capital,
+                    contact_person_name,
+                    contact_person_telephone,
+                    contact_person_email,
+                    reporting_boundary
+                FROM brsr_general_disclosures
+                WHERE reporting_financial_year = ?
+                ORDER BY id DESC
+                LIMIT 1
             `;
 
             db.query(
-                environmentalSQL,
-                [projectId, year],
-                (err, environmentalResults) => {
+                generalSQL,
+                [String(year) === "2026" ? "2025-26" : year],
+                (err, generalResults) => {
 
                     if (err) {
                         return reject(err);
                     }
 
-                    report.environmental =
-                        environmentalResults[0] || null;
+                    report.generalDisclosures =
+                        generalResults[0] || null;
 
                     // ------------------------------------------------
-                    // 3. GHG EMISSIONS
+                    // 3. ENVIRONMENTAL DATA
                     // ------------------------------------------------
 
-                    const ghgSQL = `
-                        SELECT
-                            scope_type,
-                            co2_tco2e,
-                            ch4_tco2e,
-                            n2o_tco2e,
-                            hfcs_tco2e,
-                            pfcs_tco2e,
-                            sf6_tco2e,
-                            nf3_tco2e
-                        FROM environmental_ghg_emissions
-                        WHERE environmental_data_id = (
-                            SELECT id
-                            FROM environmental_data
-                            WHERE project_id = ?
-                            AND reporting_year = ?
-                        )
-                        ORDER BY scope_type
+                    const environmentalSQL = `
+                        SELECT *
+                        FROM environmental_data
+                        WHERE project_id = ?
+                        AND reporting_year = ?
                     `;
 
                     db.query(
-                        ghgSQL,
+                        environmentalSQL,
                         [projectId, year],
-                        (err, ghgResults) => {
+                        (err, environmentalResults) => {
 
                             if (err) {
                                 return reject(err);
                             }
 
-                            report.ghg =
-                                ghgResults;
+                            report.environmental =
+                                environmentalResults[0] || null;
 
                             // ------------------------------------------------
-                            // 4. SOCIAL DATA
+                            // 4. GHG EMISSIONS
                             // ------------------------------------------------
 
-                            const socialSQL = `
-                                SELECT *
-                                FROM social_data
-                                WHERE project_id = ?
-                                AND reporting_year = ?
+                            const ghgSQL = `
+                                SELECT
+                                    scope_type,
+                                    co2_tco2e,
+                                    ch4_tco2e,
+                                    n2o_tco2e,
+                                    hfcs_tco2e,
+                                    pfcs_tco2e,
+                                    sf6_tco2e,
+                                    nf3_tco2e
+                                FROM environmental_ghg_emissions
+                                WHERE environmental_data_id = (
+                                    SELECT id
+                                    FROM environmental_data
+                                    WHERE project_id = ?
+                                    AND reporting_year = ?
+                                )
+                                ORDER BY scope_type
                             `;
 
                             db.query(
-                                socialSQL,
+                                ghgSQL,
                                 [projectId, year],
-                                (err, socialResults) => {
+                                (err, ghgResults) => {
 
                                     if (err) {
                                         return reject(err);
                                     }
 
-                                    report.social =
-                                        socialResults[0] || null;
+                                    report.ghg = ghgResults;
 
                                     // ------------------------------------------------
-                                    // 5. GOVERNANCE DATA
+                                    // 5. SOCIAL DATA
                                     // ------------------------------------------------
 
-                                    const governanceSQL = `
+                                    const socialSQL = `
                                         SELECT *
-                                        FROM governance_data
+                                        FROM social_data
                                         WHERE project_id = ?
                                         AND reporting_year = ?
                                     `;
 
                                     db.query(
-                                        governanceSQL,
+                                        socialSQL,
                                         [projectId, year],
-                                        (err, governanceResults) => {
+                                        (err, socialResults) => {
 
                                             if (err) {
                                                 return reject(err);
                                             }
 
-                                            report.governance =
-                                                governanceResults[0] || null;
+                                            report.social =
+                                                socialResults[0] || null;
 
                                             // ------------------------------------------------
-                                            // 6. WORKFLOW STATUS
+                                            // 6. GOVERNANCE DATA
                                             // ------------------------------------------------
 
-                                            const workflowSQL = `
-                                                SELECT
-                                                    status,
-                                                    submitted_at,
-                                                    reviewed_at,
-                                                    rejection_reason,
-                                                    reviewer_comments
-                                                FROM esg_submissions
+                                            const governanceSQL = `
+                                                SELECT *
+                                                FROM governance_data
                                                 WHERE project_id = ?
                                                 AND reporting_year = ?
                                             `;
 
                                             db.query(
-                                                workflowSQL,
+                                                governanceSQL,
                                                 [projectId, year],
-                                                (err, workflowResults) => {
+                                                (err, governanceResults) => {
 
                                                     if (err) {
                                                         return reject(err);
                                                     }
 
-                                                    report.workflow = workflowResults[0] || null;
+                                                    report.governance =
+                                                        governanceResults[0] || null;
 
-// Get audit trail
-const auditSQL = `
-    SELECT
-        a.id,
-        a.user_id,
-        u.name AS user_name,
-        a.action,
-        a.module,
-        a.project_id,
-        a.reporting_year,
-        a.old_value,
-        a.new_value,
-        a.description,
-        a.created_at
-    FROM audit_logs a
-    LEFT JOIN users u
-        ON a.user_id = u.id
-    WHERE a.project_id = ?
-    AND a.reporting_year = ?
-    ORDER BY a.created_at ASC
-`;
+                                                    // ------------------------------------------------
+                                                    // 7. WORKFLOW STATUS
+                                                    // ------------------------------------------------
 
-db.query(
-    auditSQL,
-    [projectId, year],
-    (err, auditResults) => {
+                                                    const workflowSQL = `
+                                                        SELECT
+                                                            status,
+                                                            submitted_at,
+                                                            reviewed_at,
+                                                            rejection_reason,
+                                                            reviewer_comments
+                                                        FROM esg_submissions
+                                                        WHERE project_id = ?
+                                                        AND reporting_year = ?
+                                                    `;
 
-        if (err) {
-            return reject(err);
-        }
+                                                    db.query(
+                                                        workflowSQL,
+                                                        [projectId, year],
+                                                        (err, workflowResults) => {
 
-        report.auditLogs = auditResults;
+                                                            if (err) {
+                                                                return reject(err);
+                                                            }
 
-        resolve(report);
-    }
-);
+                                                            report.workflow =
+                                                                workflowResults[0] || null;
+
+                                                            // ------------------------------------------------
+                                                            // 8. AUDIT TRAIL
+                                                            // ------------------------------------------------
+
+                                                            const auditSQL = `
+                                                                SELECT
+                                                                    a.id,
+                                                                    a.user_id,
+                                                                    u.name AS user_name,
+                                                                    a.action,
+                                                                    a.module,
+                                                                    a.project_id,
+                                                                    a.reporting_year,
+                                                                    a.old_value,
+                                                                    a.new_value,
+                                                                    a.description,
+                                                                    a.created_at
+                                                                FROM audit_logs a
+                                                                LEFT JOIN users u
+                                                                    ON a.user_id = u.id
+                                                                WHERE a.project_id = ?
+                                                                AND a.reporting_year = ?
+                                                                ORDER BY a.created_at ASC
+                                                            `;
+
+                                                            db.query(
+                                                                auditSQL,
+                                                                [projectId, year],
+                                                                (err, auditResults) => {
+
+                                                                    if (err) {
+                                                                        return reject(err);
+                                                                    }
+
+                                                                    report.auditLogs =
+                                                                        auditResults;
+
+                                                                    resolve(report);
+                                                                }
+                                                            );
+
+                                                        }
+                                                    );
 
                                                 }
                                             );
+
                                         }
                                     );
+
                                 }
                             );
+
                         }
                     );
+
                 }
             );
+
         });
     });
 };
