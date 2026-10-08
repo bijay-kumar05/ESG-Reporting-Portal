@@ -1,0 +1,40 @@
+-- Hierarchy: Group -> Subsidiary -> Business Unit -> Project
+-- Run once against your existing database.
+
+CREATE TABLE IF NOT EXISTS `groups` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    code VARCHAR(30) UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS subsidiaries (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    group_id INT NOT NULL,
+    name VARCHAR(150) NOT NULL,
+    code VARCHAR(30),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (group_id) REFERENCES `groups`(id)
+);
+
+CREATE TABLE IF NOT EXISTS business_units (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    subsidiary_id INT NOT NULL,
+    name VARCHAR(150) NOT NULL,
+    code VARCHAR(30),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (subsidiary_id) REFERENCES subsidiaries(id)
+);
+
+-- Projects now belong to a business unit (nullable so legacy rows keep working)
+ALTER TABLE projects ADD COLUMN business_unit_id INT NULL;
+ALTER TABLE projects ADD CONSTRAINT fk_projects_bu
+    FOREIGN KEY (business_unit_id) REFERENCES business_units(id);
+
+-- Users: role becomes one of GROUP_ADMIN | SUBSIDIARY_ADMIN | BU_ADMIN | PROJECT_USER
+-- scope_id = id of the group / subsidiary / business unit / project the user belongs to
+ALTER TABLE users MODIFY role VARCHAR(30) NOT NULL;
+ALTER TABLE users ADD COLUMN scope_id INT NULL;
+
+-- If your existing admin user should become the top-level user, adjust and run:
+-- UPDATE users SET role = 'GROUP_ADMIN', scope_id = 1 WHERE email = 'your-admin@email.com';
