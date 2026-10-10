@@ -24,9 +24,9 @@ const [selectedYear, setSelectedYear] = useState(
     const [generatingExcel, setGeneratingExcel] = useState(false);
     const [message, setMessage] = useState("");
 
-    // -----------------------------------------
+    
     // FETCH PROJECTS
-    // -----------------------------------------
+    
 
     useEffect(() => {
 
@@ -88,9 +88,9 @@ const [selectedYear, setSelectedYear] = useState(
     }
 }, [projectFromOverview]);
 
-    // -----------------------------------------
+    
     // GENERATE PDF
-    // -----------------------------------------
+    
 
     const generatePDF = async () => {
 

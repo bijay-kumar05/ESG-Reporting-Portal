@@ -38,10 +38,8 @@ function BRSRReport({ onBack }) {
         useState("");
 
 
-    // ==========================================
-    // FETCH PROJECTS
-    // ==========================================
-
+        // FETCH PROJECTS
+    
     useEffect(() => {
 
         const fetchProjects = async () => {
@@ -121,10 +119,8 @@ function BRSRReport({ onBack }) {
     }, []);
 
 
-    // ==========================================
-    // FETCH REPORT DATA
-    // ==========================================
-
+        // FETCH REPORT DATA
+    
     useEffect(() => {
 
         if (!selectedProject) {
@@ -279,10 +275,8 @@ function BRSRReport({ onBack }) {
     };
 
 
-    // ==========================================
-    // DOWNLOAD EXCEL
-    // ==========================================
-
+        // DOWNLOAD EXCEL
+    
     const downloadExcel = async () => {
 
         if (!selectedProject) {
@@ -359,10 +353,8 @@ function BRSRReport({ onBack }) {
     };
 
 
-    // ==========================================
-    // DATA STATUS
-    // ==========================================
-
+        // DATA STATUS
+    
     const hasProject =
     !!selectedProjectData;
 
@@ -396,10 +388,8 @@ const progress =
     (completedSections / 6) * 100;
 
 
-    // ==========================================
-    // UI
-    // ==========================================
-
+        // UI
+    
     return (
 
         <div className="min-h-screen bg-slate-50 p-6">
@@ -961,9 +951,7 @@ const progress =
 }
 
 
-// ==========================================
 // INFORMATION COMPONENT
-// ==========================================
 
 function Info({ label, value }) {
 
@@ -985,9 +973,7 @@ function Info({ label, value }) {
 }
 
 
-// ==========================================
 // STATUS COMPONENT
-// ==========================================
 
 function Status({ label, completed }) {
 

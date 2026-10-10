@@ -21,9 +21,9 @@ function ProjectOverview({
     onOpenModule
 }) {
 
-    // --------------------------------------------------
+    
     // ESG MODULE STATUS
-    // --------------------------------------------------
+    
 
     const [environmentalCompleted, setEnvironmentalCompleted] =
         useState(false);
@@ -44,9 +44,9 @@ function ProjectOverview({
         useState(true);
 
 
-    // --------------------------------------------------
+    
     // CHECK PROJECT ESG STATUS
-    // --------------------------------------------------
+    
 
     useEffect(() => {
 
@@ -65,9 +65,9 @@ function ProjectOverview({
 
             try {
 
-                // ==================================================
+                
                 // ENVIRONMENTAL
-                // ==================================================
+                
 
                 const environmentalResponse = await fetch(
                     `http://localhost:5000/api/environmental/summary/${projectId}/${year}`,
@@ -104,9 +104,9 @@ function ProjectOverview({
                 }
 
 
-                // ==================================================
+                
                 // SOCIAL
-                // ==================================================
+                
 
                 const socialResponse = await fetch(
                     `http://localhost:5000/api/social/${projectId}/${year}`,
@@ -143,9 +143,9 @@ function ProjectOverview({
                 }
 
 
-                // ==================================================
+                
                 // GOVERNANCE
-                // ==================================================
+                
 
                 const governanceResponse = await fetch(
                     `http://localhost:5000/api/governance/${projectId}/${year}`,
@@ -182,9 +182,9 @@ function ProjectOverview({
                 }
 
 
-                // ==================================================
+                
                 // WORKFLOW
-                // ==================================================
+                
 
                 const workflowResponse = await fetch(
                     `http://localhost:5000/api/workflow/${projectId}/${year}`,
@@ -220,16 +220,11 @@ function ProjectOverview({
                 }
 
 
-                // ==================================================
+                
                 // REPORTS
-                // ==================================================
-                //
-                // Reports are available when at least one ESG
-                // module contains data.
-                //
-                // We use the local values calculated above instead
-                // of React state because state updates are asynchronous.
-                // ==================================================
+                
+                
+                
 
                 setReportsAvailable(
                     environmentalCompletedValue ||
@@ -270,9 +265,9 @@ function ProjectOverview({
     }, [selectedProject]);
 
 
-    // --------------------------------------------------
+    
     // NO PROJECT SELECTED
-    // --------------------------------------------------
+    
 
     if (!selectedProject) {
 
@@ -308,9 +303,9 @@ function ProjectOverview({
     }
 
 
-    // --------------------------------------------------
+    
     // OVERALL PROGRESS
-    // --------------------------------------------------
+    
 
     const progress =
         (environmentalCompleted ? 20 : 0) +
@@ -320,9 +315,9 @@ function ProjectOverview({
         (reportsAvailable ? 20 : 0);
 
 
-    // --------------------------------------------------
+    
     // MODULES
-    // --------------------------------------------------
+    
 
     const modules = [
 
@@ -406,18 +401,16 @@ function ProjectOverview({
     ];
 
 
-    // --------------------------------------------------
+    
     // UI
-    // --------------------------------------------------
+    
 
     return (
 
         <div className="min-h-screen bg-slate-50">
 
 
-            {/* ==================================================
-                HEADER
-            ================================================== */}
+            {/* HEADER*/}
 
             <div className="bg-white border-b border-slate-200">
 
@@ -477,16 +470,16 @@ function ProjectOverview({
             </div>
 
 
-            {/* ==================================================
+            {/*
                 MAIN
-            ================================================== */}
+            */}
 
             <div className="max-w-7xl mx-auto px-6 py-8">
 
 
-                {/* ==================================================
+                {/*
                     PROJECT INFORMATION
-                ================================================== */}
+                */}
 
                 <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
 
@@ -621,9 +614,9 @@ function ProjectOverview({
                 </div>
 
 
-                {/* ==================================================
+                {/*
                     ESG REPORTING PROGRESS
-                ================================================== */}
+                */}
 
                 <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mt-6">
 
@@ -694,9 +687,9 @@ function ProjectOverview({
                 </div>
 
 
-                {/* ==================================================
+                {/*
                     MODULES
-                ================================================== */}
+                */}
 
                 <div className="mt-8">
 

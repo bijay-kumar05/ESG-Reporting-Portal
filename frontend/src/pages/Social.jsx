@@ -55,9 +55,9 @@ function Social({ onBack, selectedProject }) {
     const [message, setMessage] = useState("");
 
 
-    // =====================================================
+    
     // FETCH PROJECTS
-    // =====================================================
+    
 
     useEffect(() => {
 
@@ -81,8 +81,7 @@ function Social({ onBack, selectedProject }) {
                 setProjects(response.data);
 
 
-                // If a project was passed from Projects page,
-                // keep that project selected.
+                
 
                 if (selectedProject?.id) {
 
@@ -115,9 +114,9 @@ function Social({ onBack, selectedProject }) {
     }, [selectedProject]);
 
 
-    // =====================================================
+    
     // UPDATE SELECTED PROJECT FROM APP
-    // =====================================================
+    
 
     useEffect(() => {
 
@@ -140,9 +139,9 @@ function Social({ onBack, selectedProject }) {
     }, [selectedProject]);
 
 
-    // =====================================================
+    
     // HANDLE INPUT
-    // =====================================================
+    
 
     const handleChange = (e) => {
 
@@ -162,9 +161,9 @@ function Social({ onBack, selectedProject }) {
     };
 
 
-    // =====================================================
+    
     // LOAD EXISTING SOCIAL DATA
-    // =====================================================
+    
 
     useEffect(() => {
 
@@ -264,8 +263,7 @@ function Social({ onBack, selectedProject }) {
                     error
                 );
 
-                // If no data exists for this project/year,
-                // keep the form empty.
+                
 
                 if (
                     error.response?.status === 404
@@ -292,9 +290,9 @@ function Social({ onBack, selectedProject }) {
     ]);
 
 
-    // =====================================================
+    
     // RESET FORM
-    // =====================================================
+    
 
     const resetForm = () => {
 
@@ -325,9 +323,9 @@ function Social({ onBack, selectedProject }) {
     };
 
 
-    // =====================================================
+    
     // SAVE SOCIAL DATA
-    // =====================================================
+    
 
     const handleSave = async () => {
 
@@ -413,9 +411,9 @@ function Social({ onBack, selectedProject }) {
     };
 
 
-    // =====================================================
+    
     // INPUT FIELD COMPONENT
-    // =====================================================
+    
 
     const InputField = ({
         label,
@@ -448,18 +446,18 @@ function Social({ onBack, selectedProject }) {
     );
 
 
-    // =====================================================
+    
     // PAGE
-    // =====================================================
+    
 
     return (
 
         <div className="min-h-screen bg-gray-50">
 
 
-            {/* =================================================
+            {/* 
                 HEADER
-            ================================================= */}
+             */}
 
             <div className="bg-white border-b">
 
@@ -496,16 +494,16 @@ function Social({ onBack, selectedProject }) {
             </div>
 
 
-            {/* =================================================
+            {/* 
                 MAIN
-            ================================================= */}
+             */}
 
             <div className="max-w-7xl mx-auto px-6 py-8">
 
 
-                {/* =================================================
+                {/* 
                     PROJECT / YEAR
-                ================================================= */}
+                 */}
 
                 <div className="bg-white rounded-xl shadow-sm border p-6 mb-6">
 
@@ -610,9 +608,9 @@ function Social({ onBack, selectedProject }) {
                 </div>
 
 
-                {/* =================================================
+                {/* 
                     LOADING
-                ================================================= */}
+                 */}
 
                 {loadingData && (
 
@@ -625,9 +623,9 @@ function Social({ onBack, selectedProject }) {
                 )}
 
 
-                {/* =================================================
+                {/* 
                     WORKFORCE
-                ================================================= */}
+                 */}
 
                 <div className="bg-white rounded-xl shadow-sm border p-6 mb-6">
 
@@ -699,9 +697,9 @@ function Social({ onBack, selectedProject }) {
                 </div>
 
 
-                {/* =================================================
+                {/* 
                     TRAINING
-                ================================================= */}
+                 */}
 
                 <div className="bg-white rounded-xl shadow-sm border p-6 mb-6">
 
@@ -753,9 +751,9 @@ function Social({ onBack, selectedProject }) {
                 </div>
 
 
-                {/* =================================================
+                {/* 
                     HEALTH & SAFETY
-                ================================================= */}
+                 */}
 
                 <div className="bg-white rounded-xl shadow-sm border p-6 mb-6">
 
@@ -812,9 +810,9 @@ function Social({ onBack, selectedProject }) {
                 </div>
 
 
-                {/* =================================================
+                {/* 
                     GRIEVANCES
-                ================================================= */}
+                 */}
 
                 <div className="bg-white rounded-xl shadow-sm border p-6 mb-6">
 
@@ -866,9 +864,9 @@ function Social({ onBack, selectedProject }) {
                 </div>
 
 
-                {/* =================================================
+                {/* 
                     COMMUNITY
-                ================================================= */}
+                 */}
 
                 <div className="bg-white rounded-xl shadow-sm border p-6 mb-6">
 
@@ -915,9 +913,9 @@ function Social({ onBack, selectedProject }) {
                 </div>
 
 
-                {/* =================================================
+                {/* 
                     SAVE
-                ================================================= */}
+                 */}
 
                 <div className="bg-white rounded-xl border p-6 flex items-center justify-between">
 

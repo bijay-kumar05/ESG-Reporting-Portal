@@ -27,16 +27,14 @@ import {
 
 function Dashboard({ onLogout, onNavigate }) {
 
-    // =========================
+
     // BASIC DASHBOARD DATA
-    // =========================
+
 
     const [projectCount, setProjectCount] = useState(0);
     const [projects, setProjects] = useState([]);
 
-    // =========================
-    // ENVIRONMENTAL DATA
-    // =========================
+    // ENVIRONMENTAL DATA 
 
     const [environmentalSummary, setEnvironmentalSummary] =
         useState(null);
@@ -58,18 +56,14 @@ function Dashboard({ onLogout, onNavigate }) {
         useState("2026");
 
    
-    // =========================
-    // USER
-    // =========================
+    // USER 
 
     const user = JSON.parse(
         localStorage.getItem("user")
     );
 
-
-    // =========================
+ 
     // FETCH PROJECTS
-    // =========================
 
     const fetchProjects = async () => {
 
@@ -112,9 +106,8 @@ function Dashboard({ onLogout, onNavigate }) {
     };
 
 
-    // =========================
     // FETCH PROJECT COUNT
-    // =========================
+     
 
     const fetchProjectCount = async () => {
 
@@ -146,9 +139,9 @@ function Dashboard({ onLogout, onNavigate }) {
 
     };
 
-// =========================
+ 
 // FETCH ENVIRONMENTAL SUMMARY
-// =========================
+ 
 
 const fetchEnvironmentalSummary = async () => {
 
@@ -198,9 +191,9 @@ const fetchEnvironmentalSummary = async () => {
 };
 
 
-// =========================
+// 
 // FETCH SOCIAL SUMMARY
-// =========================
+// 
 
 const fetchSocialSummary = async () => {
 
@@ -249,9 +242,9 @@ const fetchSocialSummary = async () => {
 
 };
     
-// =========================
+
 // FETCH GOVERNANCE SUMMARY
-// =========================
+
 
 const fetchGovernanceSummary = async () => {
 
@@ -300,9 +293,9 @@ const fetchGovernanceSummary = async () => {
 
 };
 
-// =========================
+
 // FETCH WORKFLOW STATUS
-// =========================
+
 
 const fetchWorkflowStatus = async () => {
 
@@ -347,9 +340,9 @@ const fetchWorkflowStatus = async () => {
 
 };
 
-// =========================
+ 
 // FETCH SUBMISSION STATISTICS
-// =========================
+
 
 const fetchSubmissionStats = async () => {
 
@@ -402,9 +395,9 @@ const fetchSubmissionStats = async () => {
 
 };
 
-    // =========================
+    
     // INITIAL LOAD
-    // =========================
+    
 
     useEffect(() => {
 
@@ -414,9 +407,9 @@ const fetchSubmissionStats = async () => {
     }, []);
 
 
-    // =========================
+    
     // LOAD ENVIRONMENTAL DATA
-    // =========================
+    
 
     useEffect(() => {
 
@@ -431,9 +424,9 @@ const fetchSubmissionStats = async () => {
 
     }, [selectedProject, selectedYear]);
 
-    // =========================
+    
     // CHART DATA
-    // =========================
+    
 
     const ghgChartData = environmentalSummary
         ? [
@@ -490,7 +483,7 @@ const fetchSubmissionStats = async () => {
         <div className="min-h-screen bg-slate-100 flex">
 
 
-            {/* ================= SIDEBAR ================= */}
+            {/* SIDEBAR */}
 
             <aside className="w-64 bg-slate-900 text-white min-h-screen hidden md:block">
 
@@ -675,12 +668,12 @@ const fetchSubmissionStats = async () => {
             </aside>
 
 
-            {/* ================= MAIN AREA ================= */}
+            {/* MAIN AREA */}
 
             <div className="flex-1 min-w-0">
 
 
-                {/* ================= TOP BAR ================= */}
+                {/* TOP BAR */}
 
                 <header className="bg-white border-b px-6 py-4 flex justify-between items-center">
 
@@ -736,7 +729,7 @@ const fetchSubmissionStats = async () => {
                 </header>
 
 
-                {/* ================= CONTENT ================= */}
+                {/* CONTENT */}
 
                 <main className="p-6">
 
@@ -756,7 +749,7 @@ const fetchSubmissionStats = async () => {
                     </div>
 
 
-                    {/* ================= KPI CARDS ================= */}
+                    {/* KPI CARDS */}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
 
@@ -839,7 +832,7 @@ const fetchSubmissionStats = async () => {
                     </div>
 
 
-                    {/* ================= ENVIRONMENTAL PERFORMANCE ================= */}
+                    {/* ENVIRONMENTAL PERFORMANCE */}
 
                     <div className="mt-6">
 
@@ -1476,9 +1469,7 @@ const fetchSubmissionStats = async () => {
 
 </div>
 
-{/* =========================
-    GOVERNANCE PERFORMANCE
-========================= */}
+{/* GOVERNANCE PERFORMANCE*/}
 
 <div className="mt-8">
 
@@ -1665,7 +1656,7 @@ const fetchSubmissionStats = async () => {
 
 </div>
 
-                    {/* ================= OVERVIEW + STATUS ================= */}
+                    {/* OVERVIEW + STATUS  */}
 
                     <div className="mt-6">
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -1803,7 +1794,7 @@ const fetchSubmissionStats = async () => {
                     </div>
 
 
-                    {/* ================= RECENT PROJECTS ================= */}
+                    {/*  RECENT PROJECTS */}
 
                     <div className="bg-white rounded-xl shadow-sm border p-6 mt-6">
 
@@ -1958,7 +1949,7 @@ const fetchSubmissionStats = async () => {
                     </div>
 
 
-                    {/* ================= QUICK ACTIONS ================= */}
+                    {/*  QUICK ACTIONS  */}
 
                     <div className="mt-6 bg-white rounded-xl shadow-sm border p-6">
 

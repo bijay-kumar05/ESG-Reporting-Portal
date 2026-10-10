@@ -46,9 +46,9 @@ function Environmental({ onBack, selectedProject }) {
     const [loadingData, setLoadingData] = useState(false);
 
 
-    // =====================================================
+    
     // FETCH PROJECTS
-    // =====================================================
+    
 
     const fetchProjects = async () => {
 
@@ -80,9 +80,9 @@ function Environmental({ onBack, selectedProject }) {
     };
 
 
-    // =====================================================
+    
     // FETCH EXISTING ENVIRONMENTAL + GHG DATA
-    // =====================================================
+    
 
     const fetchEnvironmentalData = async (
         projectId,
@@ -101,9 +101,8 @@ function Environmental({ onBack, selectedProject }) {
                 localStorage.getItem("token");
 
 
-            // =================================================
             // GET COMPLETE ENVIRONMENTAL DATA
-            // =================================================
+
 
             const response = await axios.get(
                 `http://localhost:5000/api/environmental/details/${projectId}/${year}`,
@@ -119,9 +118,8 @@ function Environmental({ onBack, selectedProject }) {
             const result = response.data;
 
 
-            // =================================================
             // ENVIRONMENTAL DATA
-            // =================================================
+
 
             if (result.environmental) {
 
@@ -160,10 +158,8 @@ function Environmental({ onBack, selectedProject }) {
 
             }
 
-
-            // =================================================
             // SCOPE 1
-            // =================================================
+    
 
             if (result.scope1) {
 
@@ -199,9 +195,8 @@ function Environmental({ onBack, selectedProject }) {
             }
 
 
-            // =================================================
             // SCOPE 2
-            // =================================================
+    
 
             if (result.scope2) {
 
@@ -237,9 +232,9 @@ function Environmental({ onBack, selectedProject }) {
             }
 
 
-            // =================================================
+        
             // SCOPE 3
-            // =================================================
+         
 
             if (result.scope3) {
 
@@ -282,9 +277,9 @@ function Environmental({ onBack, selectedProject }) {
                 error
             );
 
-            // =====================================================
+            
 // FETCH GHG DATA
-// =====================================================
+
 
 const ghgResponse = await axios.get(
     `http://localhost:5000/api/environmental/ghg/${projectId}/${year}`,
@@ -300,9 +295,9 @@ const ghgRows = ghgResponse.data;
 console.log("GHG DATA FROM SERVER:", ghgRows);
 
 
-// =====================================================
+
 // SCOPE 1
-// =====================================================
+
 
 const scope1Data = ghgRows.find(
     (row) => row.scope_type === "SCOPE_1"
@@ -323,9 +318,9 @@ if (scope1Data) {
 }
 
 
-// =====================================================
+
 // SCOPE 2
-// =====================================================
+
 
 const scope2Data = ghgRows.find(
     (row) => row.scope_type === "SCOPE_2"
@@ -346,9 +341,9 @@ if (scope2Data) {
 }
 
 
-// =====================================================
+
 // SCOPE 3
-// =====================================================
+
 
 const scope3Data = ghgRows.find(
     (row) => row.scope_type === "SCOPE_3"
@@ -368,9 +363,9 @@ if (scope3Data) {
 
 }
 
-            // =================================================
+            // 
             // FALLBACK TO SUMMARY API
-            // =================================================
+            // 
 
             try {
 
@@ -450,9 +445,9 @@ if (scope3Data) {
     };
 
 
-    // =====================================================
+    
     // INITIAL PROJECT FETCH
-    // =====================================================
+    
 
     useEffect(() => {
 
@@ -461,9 +456,9 @@ if (scope3Data) {
     }, []);
 
 
-    // =====================================================
+    
     // LOAD SELECTED PROJECT
-    // =====================================================
+    
 
     useEffect(() => {
 
@@ -507,9 +502,9 @@ if (scope3Data) {
     }, [selectedProject]);
 
 
-    // =====================================================
+    
     // HANDLE NORMAL FORM CHANGE
-    // =====================================================
+    
 
     const handleChange = (e) => {
 
@@ -525,9 +520,9 @@ if (scope3Data) {
     };
 
 
-    // =====================================================
+    
     // UPDATE GHG SCOPE
-    // =====================================================
+    
 
     const updateScope = (
         scopeSetter,
@@ -548,9 +543,9 @@ if (scope3Data) {
     };
 
 
-    // =====================================================
+    
     // CALCULATE GHG TOTAL
-    // =====================================================
+    
 
     const calculateTotal = (scope) => {
 
@@ -568,9 +563,9 @@ if (scope3Data) {
     };
 
 
-    // =====================================================
+    
     // SAVE ENVIRONMENTAL DATA
-    // =====================================================
+    
 
     const saveEnvironmentalData = async (e) => {
 
@@ -678,9 +673,9 @@ if (scope3Data) {
     };
 
 
-    // =====================================================
+    
     // RENDER SCOPE
-    // =====================================================
+    
 
     const renderScope = (
         title,
@@ -776,18 +771,18 @@ if (scope3Data) {
     );
 
 
-    // =====================================================
+    
     // PAGE
-    // =====================================================
+    
 
     return (
 
         <div className="min-h-screen bg-slate-100">
 
 
-            {/* =================================================
+            {/* 
                 HEADER
-            ================================================= */}
+             */}
 
             <div className="bg-white border-b px-6 py-4 flex items-center justify-between">
 
@@ -820,9 +815,9 @@ if (scope3Data) {
             </div>
 
 
-            {/* =================================================
+            {/* 
                 FORM
-            ================================================= */}
+             */}
 
             <form
                 onSubmit={
@@ -832,9 +827,9 @@ if (scope3Data) {
             >
 
 
-                {/* =================================================
+                {/* 
                     REPORTING INFORMATION
-                ================================================= */}
+                 */}
 
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
 
@@ -947,9 +942,9 @@ if (scope3Data) {
                 </div>
 
 
-                {/* =================================================
+                {/* 
                     RESOURCE CONSUMPTION & WASTE
-                ================================================= */}
+                 */}
 
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
 
@@ -1112,9 +1107,9 @@ if (scope3Data) {
                 </div>
 
 
-                {/* =================================================
+                {/* 
                     GHG EMISSIONS
-                ================================================= */}
+                 */}
 
                 <div>
 
@@ -1177,9 +1172,7 @@ if (scope3Data) {
                 </div>
 
 
-                {/* =================================================
-                    SAVE BUTTON
-                ================================================= */}
+                {/* SAVE BUTTOn */}
 
                 <div className="flex justify-end">
 

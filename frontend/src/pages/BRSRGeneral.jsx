@@ -95,7 +95,7 @@ function BRSRGeneral({ onBack }) {
         };
     }, []);
 
-    // Load disclosures for the selected project and financial year
+    // Load disclosures 
     useEffect(() => {
         if (!selectedProject || !form.reporting_financial_year) {
             setForm((previous) => ({
@@ -302,7 +302,7 @@ function BRSRGeneral({ onBack }) {
                     </div>
                 </div>
 
-                {/* Project and financial year selection */}
+                {/* Project and financial year */}
                 <div className="mb-6 grid grid-cols-1 gap-5 rounded-xl bg-white p-6 shadow-sm md:grid-cols-2">
 
                     <div>

@@ -18,9 +18,9 @@ function BRSREnvironmental({ onBack }) {
 
     const [message, setMessage] = useState("");
 
-    // -----------------------------------------
+    
     // FETCH PROJECTS
-    // -----------------------------------------
+    
 
     useEffect(() => {
 
@@ -69,9 +69,9 @@ function BRSREnvironmental({ onBack }) {
 
     }, []);
 
-    // -----------------------------------------
+    
     // FETCH ENVIRONMENTAL DATA
-    // -----------------------------------------
+    
 
     useEffect(() => {
 
@@ -178,9 +178,9 @@ setData(environmentalData || null);
 
     }, [selectedProject, selectedYear]);
 
-    // -----------------------------------------
+    
     // HELPER
-    // -----------------------------------------
+    
 
     const formatValue = (value) => {
 
@@ -549,9 +549,9 @@ setData(environmentalData || null);
 }
 
 
-// -----------------------------------------
+
 // METRIC COMPONENT
-// -----------------------------------------
+
 
 function Metric({ label, value }) {
 

@@ -13,9 +13,9 @@ function Workflow({ onBack }) {
     const [rejectionReason, setRejectionReason] = useState("");
     const [comments, setComments] = useState("");
 
-    // --------------------------------------------------
+    
     // FETCH PROJECTS
-    // --------------------------------------------------
+    
 
     const fetchProjects = async () => {
 
@@ -52,9 +52,9 @@ function Workflow({ onBack }) {
     };
 
 
-    // --------------------------------------------------
+    
     // FETCH SUBMISSION
-    // --------------------------------------------------
+    
 
     const fetchSubmission = async () => {
 
@@ -117,9 +117,9 @@ function Workflow({ onBack }) {
     }, [selectedProject, selectedYear]);
 
 
-    // --------------------------------------------------
+    
     // SAVE DRAFT
-    // --------------------------------------------------
+    
 
     const saveDraft = async () => {
 
@@ -164,9 +164,9 @@ function Workflow({ onBack }) {
     };
 
 
-    // --------------------------------------------------
+    
     // SUBMIT REPORT
-    // --------------------------------------------------
+    
 
     const submitReport = async () => {
 
@@ -217,9 +217,9 @@ function Workflow({ onBack }) {
     };
 
 
-    // --------------------------------------------------
+    
     // START REVIEW
-    // --------------------------------------------------
+    
 
     const startReview = async () => {
 
@@ -262,9 +262,9 @@ function Workflow({ onBack }) {
     };
 
 
-    // --------------------------------------------------
+    
     // APPROVE
-    // --------------------------------------------------
+    
 
     const approveReport = async () => {
 
@@ -318,9 +318,9 @@ function Workflow({ onBack }) {
     };
 
 
-    // --------------------------------------------------
+    
     // REJECT
-    // --------------------------------------------------
+    
 
     const rejectReport = async () => {
 
@@ -376,9 +376,9 @@ function Workflow({ onBack }) {
     };
 
 
-    // --------------------------------------------------
+    
     // LOCK
-    // --------------------------------------------------
+    
 
     const lockReport = async () => {
 
@@ -429,9 +429,9 @@ function Workflow({ onBack }) {
     };
 
 
-    // --------------------------------------------------
+    
     // STATUS
-    // --------------------------------------------------
+    
 
     const status =
         submission?.status || "NOT CREATED";

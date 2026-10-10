@@ -60,9 +60,9 @@ function Governance({ onBack }) {
     });
 
 
-    // =========================
+    
     // FETCH PROJECTS
-    // =========================
+    
 
     useEffect(() => {
 
@@ -102,9 +102,9 @@ function Governance({ onBack }) {
     }, []);
 
 
-    // =========================
+    
     // LOAD EXISTING DATA
-    // =========================
+    
 
     useEffect(() => {
 
@@ -205,9 +205,9 @@ function Governance({ onBack }) {
     }, [selectedProject, reportingYear]);
 
 
-    // =========================
+    
     // RESET FORM
-    // =========================
+    
 
     const resetForm = () => {
 
@@ -246,9 +246,9 @@ function Governance({ onBack }) {
     };
 
 
-    // =========================
+    
     // HANDLE INPUT
-    // =========================
+    
 
     const handleChange = (e) => {
 
@@ -272,9 +272,9 @@ function Governance({ onBack }) {
     };
 
 
-    // =========================
+    
     // SAVE DATA
-    // =========================
+    
 
     const handleSubmit = async (e) => {
 
@@ -356,9 +356,9 @@ function Governance({ onBack }) {
     };
 
 
-    // =========================
+    
     // UI
-    // =========================
+    
 
     return (
 
@@ -719,9 +719,9 @@ function Governance({ onBack }) {
 }
 
 
-// =========================
+
 // SECTION COMPONENT
-// =========================
+
 
 function Section({
     icon,
@@ -774,9 +774,9 @@ function Section({
 }
 
 
-// =========================
+
 // INPUT COMPONENT
-// =========================
+
 
 function Input({
     label,

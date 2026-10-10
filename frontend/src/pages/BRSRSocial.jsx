@@ -17,9 +17,9 @@ function BRSRSocial({ onBack }) {
 
     const [message, setMessage] = useState("");
 
-    // -----------------------------------------
+    
     // FETCH PROJECTS
-    // -----------------------------------------
+    
 
     useEffect(() => {
 
@@ -68,9 +68,9 @@ function BRSRSocial({ onBack }) {
 
     }, []);
 
-    // -----------------------------------------
+    
     // FETCH SOCIAL DATA
-    // -----------------------------------------
+    
 
     useEffect(() => {
 
@@ -447,9 +447,9 @@ function BRSRSocial({ onBack }) {
 }
 
 
-// -----------------------------------------
+
 // METRIC COMPONENT
-// -----------------------------------------
+
 
 function Metric({ label, value }) {
 

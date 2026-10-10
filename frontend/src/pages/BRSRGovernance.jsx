@@ -17,9 +17,9 @@ function BRSRGovernance({ onBack }) {
 
     const [message, setMessage] = useState("");
 
-    // -----------------------------------------
+    
     // FETCH PROJECTS
-    // -----------------------------------------
+    
 
     useEffect(() => {
 
@@ -68,9 +68,9 @@ function BRSRGovernance({ onBack }) {
 
     }, []);
 
-    // -----------------------------------------
+    
     // FETCH GOVERNANCE DATA
-    // -----------------------------------------
+    
 
     useEffect(() => {
 
@@ -503,9 +503,9 @@ function BRSRGovernance({ onBack }) {
 }
 
 
-// -----------------------------------------
+
 // METRIC COMPONENT
-// -----------------------------------------
+
 
 function Metric({ label, value }) {
 
