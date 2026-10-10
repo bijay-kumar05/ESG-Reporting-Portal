@@ -1,0 +1,5 @@
+﻿ALTER TABLE `users`
+  MODIFY COLUMN `role` ENUM('ADMIN','GROUP','SUBSIDIARY','BUSINESS_UNIT') NOT NULL DEFAULT 'BUSINESS_UNIT',
+  ADD COLUMN `group_id`         INT DEFAULT NULL AFTER `scope_id`,
+  ADD COLUMN `subsidiary_id`    INT DEFAULT NULL AFTER `group_id`,
+  ADD COLUMN `business_unit_id` INT DEFAULT NULL AFTER `subsidiary_id`;

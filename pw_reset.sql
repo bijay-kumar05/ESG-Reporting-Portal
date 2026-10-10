@@ -1,0 +1,1 @@
+﻿UPDATE users SET password = '$2b$10$D2UiejTKKeN8X51prhrjnekwUW2DsnuspnhyqFYetzakyKgZkYA1O' WHERE email = 'admin@esgportal.com';
