@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Login from "./pages/login";
+import AuthPage from "./pages/login";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import Environmental from "./pages/Environmental";
@@ -15,6 +15,7 @@ import BRSRSocial from "./pages/BRSRSocial";
 import BRSRGovernance from "./pages/BRSRGovernance";
 import BRSRReport from "./pages/BRSRReport";
 import AuditLogs from "./pages/AuditLogs";
+
 function App() {
 
     const [loggedIn, setLoggedIn] = useState(
@@ -30,7 +31,7 @@ function App() {
 
     if (!loggedIn) {
         return (
-            <Login
+            <AuthPage
                 onLogin={() => {
                     setLoggedIn(true);
                     setCurrentPage("dashboard");
