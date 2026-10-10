@@ -1,5 +1,9 @@
 const db = require("../config/db");
 
+// ==================================================
+// ENVIRONMENTAL VALIDATION
+// ==================================================
+
 const validateEnvironmentalData = (projectId, year) => {
 
     return new Promise((resolve, reject) => {
@@ -27,7 +31,9 @@ const validateEnvironmentalData = (projectId, year) => {
 
                 const errors = [];
 
+                // No data
                 if (results.length === 0) {
+
                     errors.push(
                         "Environmental data has not been entered"
                     );
@@ -37,6 +43,7 @@ const validateEnvironmentalData = (projectId, year) => {
 
                 const data = results[0];
 
+                // Negative values
                 const fields = {
                     "Energy consumption":
                         data.energy_consumption,
@@ -57,39 +64,42 @@ const validateEnvironmentalData = (projectId, year) => {
                 Object.entries(fields).forEach(
                     ([name, value]) => {
 
-                        if (Number(value) < 0) {
+                        if (
+                            value !== null &&
+                            value !== undefined &&
+                            Number(value) < 0
+                        ) {
+
                             errors.push(
                                 `${name} cannot be negative`
                             );
                         }
-
                     }
                 );
 
+                // Renewable energy cannot exceed total energy
                 if (
-                    Number(data.renewable_energy) >
-                    Number(data.energy_consumption)
+                    Number(data.renewable_energy || 0) >
+                    Number(data.energy_consumption || 0)
                 ) {
 
                     errors.push(
                         "Renewable energy cannot exceed total energy consumption"
                     );
-
                 }
 
+                // Recycled waste cannot exceed generated waste
                 if (
-                    Number(data.waste_recycled) >
-                    Number(data.waste_generated)
+                    Number(data.waste_recycled || 0) >
+                    Number(data.waste_generated || 0)
                 ) {
 
                     errors.push(
                         "Waste recycled cannot exceed waste generated"
                     );
-
                 }
 
                 resolve(errors);
-
             }
         );
 
@@ -98,9 +108,9 @@ const validateEnvironmentalData = (projectId, year) => {
 };
 
 
-// --------------------------------------------------
+// ==================================================
 // SOCIAL VALIDATION
-// --------------------------------------------------
+// ==================================================
 
 const validateSocialData = (projectId, year) => {
 
@@ -124,6 +134,7 @@ const validateSocialData = (projectId, year) => {
 
                 const errors = [];
 
+                // No data
                 if (results.length === 0) {
 
                     errors.push(
@@ -131,127 +142,131 @@ const validateSocialData = (projectId, year) => {
                     );
 
                     return resolve(errors);
-
                 }
 
                 const data = results[0];
 
-                // Negative value validation
-
+                // Numeric fields
                 const numericFields = [
+
                     "total_employees",
                     "male_employees",
                     "female_employees",
                     "other_gender_employees",
+
                     "permanent_employees",
                     "contractual_employees",
+
                     "employees_trained",
                     "training_hours",
+
                     "workplace_accidents",
                     "fatalities",
                     "lost_time_injuries",
+
                     "employee_grievances",
                     "grievances_resolved",
+
                     "community_investment"
                 ];
 
-                numericFields.forEach((field) => {
+                numericFields.forEach(
+                    (field) => {
 
-                    if (Number(data[field]) < 0) {
+                        if (
+                            data[field] !== null &&
+                            data[field] !== undefined &&
+                            Number(data[field]) < 0
+                        ) {
 
-                        errors.push(
-                            `${field.replaceAll("_", " ")} cannot be negative`
-                        );
-
+                            errors.push(
+                                `${field.replaceAll("_", " ")} cannot be negative`
+                            );
+                        }
                     }
+                );
 
-                });
 
-
-                // Employee consistency
-
+                // Employee gender consistency
                 const genderTotal =
-                    Number(data.male_employees) +
-                    Number(data.female_employees) +
-                    Number(data.other_gender_employees);
+                    Number(data.male_employees || 0) +
+                    Number(data.female_employees || 0) +
+                    Number(data.other_gender_employees || 0);
 
                 if (
                     genderTotal >
-                    Number(data.total_employees)
+                    Number(data.total_employees || 0)
                 ) {
 
                     errors.push(
                         "Male + female + other employees cannot exceed total employees"
                     );
-
                 }
 
 
+                // Employment consistency
                 const employmentTotal =
-                    Number(data.permanent_employees) +
-                    Number(data.contractual_employees);
+                    Number(data.permanent_employees || 0) +
+                    Number(data.contractual_employees || 0);
 
                 if (
                     employmentTotal >
-                    Number(data.total_employees)
+                    Number(data.total_employees || 0)
                 ) {
 
                     errors.push(
                         "Permanent + contractual employees cannot exceed total employees"
                     );
-
                 }
 
 
+                // Training consistency
                 if (
-                    Number(data.employees_trained) >
-                    Number(data.total_employees)
+                    Number(data.employees_trained || 0) >
+                    Number(data.total_employees || 0)
                 ) {
 
                     errors.push(
                         "Employees trained cannot exceed total employees"
                     );
-
                 }
 
 
+                // Grievance consistency
                 if (
-                    Number(data.grievances_resolved) >
-                    Number(data.employee_grievances)
+                    Number(data.grievances_resolved || 0) >
+                    Number(data.employee_grievances || 0)
                 ) {
 
                     errors.push(
                         "Resolved grievances cannot exceed grievances received"
                     );
-
                 }
 
 
+                // Accident consistency
                 if (
-                    Number(data.fatalities) >
-                    Number(data.workplace_accidents)
+                    Number(data.fatalities || 0) >
+                    Number(data.workplace_accidents || 0)
                 ) {
 
                     errors.push(
                         "Fatalities cannot exceed workplace accidents"
                     );
-
                 }
 
 
                 if (
-                    Number(data.lost_time_injuries) >
-                    Number(data.workplace_accidents)
+                    Number(data.lost_time_injuries || 0) >
+                    Number(data.workplace_accidents || 0)
                 ) {
 
                     errors.push(
                         "Lost-time injuries cannot exceed workplace accidents"
                     );
-
                 }
 
                 resolve(errors);
-
             }
         );
 
@@ -260,9 +275,9 @@ const validateSocialData = (projectId, year) => {
 };
 
 
-// --------------------------------------------------
+// ==================================================
 // GOVERNANCE VALIDATION
-// --------------------------------------------------
+// ==================================================
 
 const validateGovernanceData = (
     projectId,
@@ -289,6 +304,7 @@ const validateGovernanceData = (
 
                 const errors = [];
 
+                // No data
                 if (results.length === 0) {
 
                     errors.push(
@@ -296,68 +312,76 @@ const validateGovernanceData = (
                     );
 
                     return resolve(errors);
-
                 }
 
                 const data = results[0];
 
-
                 const numericFields = [
+
                     "ethics_training_employees",
+
                     "anti_corruption_cases",
                     "bribery_cases",
+
                     "whistleblower_complaints",
                     "whistleblower_resolved",
+
                     "regulatory_actions",
                     "regulatory_penalties",
+
                     "data_privacy_incidents",
                     "cybersecurity_incidents",
+
                     "customer_complaints",
                     "customer_complaints_resolved",
+
                     "governance_training_hours",
+
                     "board_meetings",
                     "management_meetings"
                 ];
 
+                numericFields.forEach(
+                    (field) => {
 
-                numericFields.forEach((field) => {
+                        if (
+                            data[field] !== null &&
+                            data[field] !== undefined &&
+                            Number(data[field]) < 0
+                        ) {
 
-                    if (Number(data[field]) < 0) {
-
-                        errors.push(
-                            `${field.replaceAll("_", " ")} cannot be negative`
-                        );
-
+                            errors.push(
+                                `${field.replaceAll("_", " ")} cannot be negative`
+                            );
+                        }
                     }
+                );
 
-                });
 
-
+                // Whistleblower consistency
                 if (
-                    Number(data.whistleblower_resolved) >
-                    Number(data.whistleblower_complaints)
+                    Number(data.whistleblower_resolved || 0) >
+                    Number(data.whistleblower_complaints || 0)
                 ) {
 
                     errors.push(
                         "Resolved whistleblower complaints cannot exceed complaints received"
                     );
-
                 }
 
 
+                // Customer complaint consistency
                 if (
-                    Number(data.customer_complaints_resolved) >
-                    Number(data.customer_complaints)
+                    Number(data.customer_complaints_resolved || 0) >
+                    Number(data.customer_complaints || 0)
                 ) {
 
                     errors.push(
                         "Resolved customer complaints cannot exceed complaints received"
                     );
-
                 }
 
                 resolve(errors);
-
             }
         );
 
@@ -366,47 +390,61 @@ const validateGovernanceData = (
 };
 
 
-// --------------------------------------------------
+// ==================================================
 // COMPLETE ESG VALIDATION
-// --------------------------------------------------
+// ==================================================
 
 const validateESGData = async (
     projectId,
     year
 ) => {
 
-    const errors = [];
-
     try {
 
+        const errors = [];
+
+        // Environmental
         const environmentalErrors =
             await validateEnvironmentalData(
                 projectId,
                 year
             );
 
-        errors.push(...environmentalErrors);
+        errors.push(
+            ...environmentalErrors
+        );
 
 
+        // Social
         const socialErrors =
             await validateSocialData(
                 projectId,
                 year
             );
 
-        errors.push(...socialErrors);
+        errors.push(
+            ...socialErrors
+        );
 
 
+        // Governance
         const governanceErrors =
             await validateGovernanceData(
                 projectId,
                 year
             );
 
-        errors.push(...governanceErrors);
+        errors.push(
+            ...governanceErrors
+        );
 
 
-        return errors;
+        // IMPORTANT:
+        // Return both valid and errors
+        return {
+            valid: errors.length === 0,
+            errors: errors
+        };
 
     } catch (error) {
 
@@ -416,15 +454,23 @@ const validateESGData = async (
         );
 
         throw error;
-
     }
 
 };
 
 
+// ==================================================
+// EXPORTS
+// ==================================================
+
 module.exports = {
+
     validateEnvironmentalData,
+
     validateSocialData,
+
     validateGovernanceData,
+
     validateESGData
+
 };

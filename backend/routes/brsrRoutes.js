@@ -22,7 +22,7 @@ router.post(
 
 // Get BRSR General Disclosures
 router.get(
-    "/general/:year",
+    "/general/:projectId/:year",
     authenticateToken,
     getGeneralDisclosures
 );

@@ -371,7 +371,9 @@ const hasGeneralDisclosures =
 
 const hasEnvironmental =
     !!report?.environmental;
-
+const hasGHG =
+    Array.isArray(report?.ghg) &&
+    report.ghg.length > 0;
 
     const hasSocial =
         !!report?.social;
@@ -385,13 +387,13 @@ const hasEnvironmental =
     hasProject,
     hasGeneralDisclosures,
     hasEnvironmental,
+    hasGHG,
     hasSocial,
     hasGovernance
 ].filter(Boolean).length;
 
-
 const progress =
-    (completedSections / 5) * 100;
+    (completedSections / 6) * 100;
 
 
     // ==========================================
@@ -875,7 +877,11 @@ const progress =
                                     }
                                 />
 
-
+                                <Status
+                                    label="GHG"
+                                    completed={hasGHG}
+                                />
+                                
                                 <Status
                                     label="Social"
                                     completed={

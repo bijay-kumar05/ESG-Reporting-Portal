@@ -14,6 +14,7 @@ import BRSREnvironmental from "./pages/BRSREnvironmental";
 import BRSRSocial from "./pages/BRSRSocial";
 import BRSRGovernance from "./pages/BRSRGovernance";
 import BRSRReport from "./pages/BRSRReport";
+import AuditLogs from "./pages/AuditLogs";
 function App() {
 
     const [loggedIn, setLoggedIn] = useState(
@@ -183,7 +184,14 @@ if (currentPage === "brsr-general") {
         />
     );
 }
-
+// AUDIT LOGS
+if (currentPage === "audit-logs") {
+    return (
+        <AuditLogs
+            onBack={() => setCurrentPage("dashboard")}
+        />
+    );
+}
 
    // DASHBOARD
 return (

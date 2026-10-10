@@ -46,7 +46,11 @@ function Dashboard({ onLogout, onNavigate }) {
     const [governanceSummary, setGovernanceSummary] = useState(null);
 
     const [workflowStatus, setWorkflowStatus] = useState(null);
-
+    const [submissionStats, setSubmissionStats] = useState({
+    submissions: 0,
+    pendingReview: 0,
+    reportsGenerated: 0
+    });
     const [selectedProject, setSelectedProject] =
         useState("");
 
@@ -343,6 +347,61 @@ const fetchWorkflowStatus = async () => {
 
 };
 
+// =========================
+// FETCH SUBMISSION STATISTICS
+// =========================
+
+const fetchSubmissionStats = async () => {
+
+    try {
+
+        const token =
+            localStorage.getItem("token");
+
+        const response = await axios.get(
+            "http://localhost:5000/api/dashboard/stats",
+            {
+                headers: {
+                    Authorization:
+                        `Bearer ${token}`
+                }
+            }
+        );
+
+        setSubmissionStats({
+            submissions:
+                Number(
+                    response.data?.esgSubmissions
+                ) || 0,
+
+            pendingReview:
+                Number(
+                    response.data?.pendingReview
+                ) || 0,
+
+            reportsGenerated:
+                Number(
+                    response.data?.reportsGenerated
+                ) || 0
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Failed to fetch dashboard statistics:",
+            error
+        );
+
+        setSubmissionStats({
+            submissions: 0,
+            pendingReview: 0,
+            reportsGenerated: 0
+        });
+
+    }
+
+};
+
     // =========================
     // INITIAL LOAD
     // =========================
@@ -367,6 +426,7 @@ const fetchWorkflowStatus = async () => {
         fetchSocialSummary();
         fetchGovernanceSummary();
         fetchWorkflowStatus();
+        fetchSubmissionStats();
     }
 
     }, [selectedProject, selectedYear]);
@@ -491,23 +551,12 @@ const fetchWorkflowStatus = async () => {
 
 <button
     onClick={() => onNavigate("social")}
-    className="w-full text-left p-4 rounded-xl border border-gray-200 hover:bg-slate-800 transition"
->
-    <div className="flex items-center gap-3">
-        <div className="p-3 bg-blue-100 rounded-lg">
-            <Users size={20} className="text-blue-600" />
-        </div>
+    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition">
+    <Users size={20} />
 
-        <div>
-            <h3 className="font-semibold text-green-300">
-                Social ESG
-            </h3>
-
-            <p className="text-sm text-white-500">
-                Workforce, safety & community reporting
-            </p>
-        </div>
-    </div>
+<span>
+    Social ESG
+</span>
 </button>
 
 <button
@@ -520,48 +569,7 @@ const fetchWorkflowStatus = async () => {
         Governance ESG
     </span>
 </button>
-
-{/* workflow */}
-<button
-    onClick={() => onNavigate("workflow")}
-    className="p-5 bg-white rounded-xl shadow hover:shadow-lg text-left"
->
-    <h3 className="font-semibold text-slate-800">
-        ESG Status
-    </h3>
-
-    <p className="text-sm text-gray-500 mt-1">
-        Submit, review and approve ESG reports
-    </p>
-</button>
-
-<button
-    onClick={() => onNavigate("reports")}
-    className="w-full text-left p-5 bg-white border rounded-xl hover:shadow-md transition"
->
-    <div className="flex items-center gap-3">
-
-        <FileText
-            size={24}
-            className="text-green-700"
-        />
-
-        <div>
-
-            <h3 className="font-semibold text-slate-800">
-                ESG Reports
-            </h3>
-
-            <p className="text-sm text-slate-500">
-                Generate and download ESG reports
-            </p>
-
-        </div>
-
-    </div>
-</button>
-
-                   { /* ESG Data */ }
+{ /* ESG Data */ }
                     <button
                         onClick={() =>
                             onNavigate("environmental")
@@ -572,49 +580,65 @@ const fetchWorkflowStatus = async () => {
                         <Leaf size={20} />
 
                         <span>
-                            ESG Data
+                           Environmental Data
                         </span>
 
                     </button>
+{/* workflow */}
+<button
+    onClick={() => onNavigate("workflow")}
+    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition"
+>
+    <FileText size={20} />
+
+    <span>
+        Report status
+    </span>
+</button>
+ 
+<button
+    onClick={() => onNavigate("reports")}
+    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition"
+>
+    <FileText size={20} />
+
+    <span>
+        ESG Reports
+    </span>
+</button>
+
+                  
 
 
                     {/* BRSR */}
 
 <button
     onClick={() => onNavigate("brsr-dashboard")}
-    className="w-full text-left p-4 rounded-xl border border-gray-200 hover:bg-slate-800 transition"
+    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition"
 >
-    <div className="flex items-center gap-3">
-        <div className="p-3 bg-blue-100 rounded-lg">
-    <FileText className="text-emerald-600 mb-2" />
-    </div>
-    <p className="font-semibold">
-        BRSR Report
-    </p>
+    <FileText size={20} />
 
-    <p className="text-xs text-slate-500">
-        Manage BRSR reporting
-    </p>
-    </div>
+<span>
+    BRSR Report
+</span>
 </button>
 
-
-                    {/* Reports */}
+                {/* Audit Logs */}
 
                     <button
-                        className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800"
+                        onClick={() => onNavigate("audit-logs")}
+                        className="flex w-full items-center gap-3 rounded-lg px-4 py-3 transition hover:bg-slate-800"
                     >
 
-                        <BarChart3 size={20} />
+                        <ShieldCheck size={20} />
 
                         <span>
-                            Reports
+                            Audit Logs
                         </span>
 
                     </button>
 
-
-                    {/* Users */}
+                    {/* Users
 
                     <button
                         className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800"
@@ -629,22 +653,10 @@ const fetchWorkflowStatus = async () => {
                     </button>
 
 
-                    {/* Audit Logs */}
-
-                    <button
-                        className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800"
-                    >
-
-                        <ShieldCheck size={20} />
-
-                        <span>
-                            Audit Logs
-                        </span>
-
-                    </button>
+                    
 
 
-                    {/* Settings */}
+                    Settings
 
                     <button
                         className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800"
@@ -656,7 +668,7 @@ const fetchWorkflowStatus = async () => {
                             Settings
                         </span>
 
-                    </button>
+                    </button> */}
 
                 </nav>
 
@@ -777,7 +789,7 @@ const fetchWorkflowStatus = async () => {
                             </p>
 
                             <h3 className="text-3xl font-bold text-slate-800 mt-2">
-                                0
+                                 {submissionStats.submissions}
                             </h3>
 
                             <p className="text-xs text-blue-600 mt-2">
@@ -796,7 +808,7 @@ const fetchWorkflowStatus = async () => {
                             </p>
 
                             <h3 className="text-3xl font-bold text-slate-800 mt-2">
-                                0
+                                {submissionStats.pendingReview}
                             </h3>
 
                             <p className="text-xs text-orange-600 mt-2">
@@ -815,7 +827,7 @@ const fetchWorkflowStatus = async () => {
                             </p>
 
                             <h3 className="text-3xl font-bold text-slate-800 mt-2">
-                                0
+                                {submissionStats.reportsGenerated}
                             </h3>
 
                             <p className="text-xs text-purple-600 mt-2">
@@ -1050,7 +1062,7 @@ const fetchWorkflowStatus = async () => {
                                         </h3>
 
                                         <p className="text-xs text-slate-500 mt-1">
-                                            Energy consumption
+                                            Energy consumption in KJ
                                         </p>
 
                                     </div>
@@ -1071,7 +1083,7 @@ const fetchWorkflowStatus = async () => {
                                         </h3>
 
                                         <p className="text-xs text-slate-500 mt-1">
-                                            Renewable energy
+                                            Renewable energy in KJ
                                         </p>
 
                                     </div>
@@ -1092,7 +1104,7 @@ const fetchWorkflowStatus = async () => {
                                         </h3>
 
                                         <p className="text-xs text-slate-500 mt-1">
-                                            Water consumption
+                                            Water consumption in metric liters
                                         </p>
 
                                     </div>
@@ -1103,7 +1115,7 @@ const fetchWorkflowStatus = async () => {
                                     <div className="bg-white rounded-xl p-5 shadow-sm border">
 
                                         <p className="text-sm text-slate-500">
-                                            Waste Generated
+                                            Waste Generated in Tonne
                                         </p>
 
                                         <h3 className="text-2xl font-bold text-orange-600 mt-2">
@@ -1203,7 +1215,7 @@ const fetchWorkflowStatus = async () => {
                                             <div className="flex justify-between border-b pb-3">
 
                                                 <span className="text-slate-600">
-                                                    Energy Consumption
+                                                    Energy Consumption in KJ
                                                 </span>
 
                                                 <span className="font-semibold">
@@ -1218,7 +1230,7 @@ const fetchWorkflowStatus = async () => {
                                             <div className="flex justify-between border-b pb-3">
 
                                                 <span className="text-slate-600">
-                                                    Renewable Energy
+                                                    Renewable Energy in KJ
                                                 </span>
 
                                                 <span className="font-semibold text-emerald-600">
@@ -1233,7 +1245,7 @@ const fetchWorkflowStatus = async () => {
                                             <div className="flex justify-between border-b pb-3">
 
                                                 <span className="text-slate-600">
-                                                    Water Consumption
+                                                    Water Consumption in metric liter
                                                 </span>
 
                                                 <span className="font-semibold text-blue-600">
@@ -1248,7 +1260,7 @@ const fetchWorkflowStatus = async () => {
                                             <div className="flex justify-between border-b pb-3">
 
                                                 <span className="text-slate-600">
-                                                    Waste Generated
+                                                    Waste Generated in tonne
                                                 </span>
 
                                                 <span className="font-semibold text-orange-600">
@@ -1263,7 +1275,7 @@ const fetchWorkflowStatus = async () => {
                                             <div className="flex justify-between border-b pb-3">
 
                                                 <span className="text-slate-600">
-                                                    Waste Recycled
+                                                    Waste Recycled in tonne
                                                 </span>
 
                                                 <span className="font-semibold text-emerald-600">

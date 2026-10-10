@@ -4,12 +4,17 @@ require("dotenv").config();
 
 const db = require("./config/db");
 const brsrRoutes = require("./routes/brsrRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use("/api/brsr", brsrRoutes);
-
+app.use(
+    "/api/dashboard",
+    dashboardRoutes
+);
 
 app.get("/", (req, res) => {
     res.json({
@@ -66,6 +71,10 @@ app.use(
 // ESG Reports
 const reportRoutes = require("./routes/reportRoutes");
 app.use("/api/reports", reportRoutes);
+
+// audit logs
+const auditRoutes = require("./routes/auditRoutes");
+app.use("/api/audit", auditRoutes);
 
 const PORT = process.env.PORT || 5000;
 

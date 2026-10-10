@@ -132,7 +132,7 @@ const saveGeneralDisclosures = (req, res) => {
 // GET BRSR GENERAL DISCLOSURES
 const getGeneralDisclosures = (req, res) => {
 
-    const { year } = req.params;
+    const { projectId,year } = req.params;
 
     const sql = `
         SELECT *
@@ -148,8 +148,7 @@ const getGeneralDisclosures = (req, res) => {
 
             console.error(
                 "BRSR General Disclosure fetch error:",
-                err
-            );
+                err.message);
 
             return res.status(500).json({
                 message:

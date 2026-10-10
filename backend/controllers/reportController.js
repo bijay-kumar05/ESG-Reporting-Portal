@@ -9,6 +9,7 @@ const {
 const {
     generateExcel
 } = require("../services/excelService");
+const db = require("../config/db");
 
 const getESGReport = async (req, res) => {
 
@@ -77,6 +78,37 @@ const generateESGReportPDF = async (req, res) => {
         const pdfBuffer =
             await generatePDF(report);
 
+            await new Promise((resolve, reject) => {
+    const sql = `
+        INSERT INTO report_generation_logs
+        (
+            project_id,
+            reporting_year,
+            report_type,
+            generated_by
+        )
+        VALUES (?, ?, 'PDF', ?)
+    `;
+
+    db.query(
+        sql,
+        [
+            projectId,
+            year,
+            req.user?.id || null
+        ],
+        (err) => {
+            if (err) {
+                console.error(
+                    "PDF generation log error:",
+                    err
+                );
+            }
+
+            resolve();
+        }
+    );
+});
         const safeProjectName =
             (report.project.project_name || "Project")
                 .replace(/[^a-z0-9]/gi, "_");
@@ -134,6 +166,37 @@ const generateESGReportExcel = async (req, res) => {
                 report.auditLogs || []
             );
 
+            await new Promise((resolve, reject) => {
+    const sql = `
+        INSERT INTO report_generation_logs
+        (
+            project_id,
+            reporting_year,
+            report_type,
+            generated_by
+        )
+        VALUES (?, ?, 'EXCEL', ?)
+    `;
+
+    db.query(
+        sql,
+        [
+            projectId,
+            year,
+            req.user?.id || null
+        ],
+        (err) => {
+            if (err) {
+                console.error(
+                    "Excel generation log error:",
+                    err
+                );
+            }
+
+            resolve();
+        }
+    );
+});
         const safeProjectName =
             (report.project.project_name || "Project")
                 .replace(/[^a-z0-9]/gi, "_");

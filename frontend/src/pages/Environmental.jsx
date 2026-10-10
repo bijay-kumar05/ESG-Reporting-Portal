@@ -969,7 +969,7 @@ if (scope3Data) {
 
                             <label className="block text-sm font-medium text-gray-700 mb-2">
 
-                                Energy Consumption
+                                Energy Consumption in KJ
 
                             </label>
 
@@ -998,7 +998,7 @@ if (scope3Data) {
 
                             <label className="block text-sm font-medium text-gray-700 mb-2">
 
-                                Renewable Energy
+                                Renewable Energy in KJ
 
                             </label>
 
@@ -1027,7 +1027,7 @@ if (scope3Data) {
 
                             <label className="block text-sm font-medium text-gray-700 mb-2">
 
-                                Water Consumption
+                                Water Consumption in metric liter
 
                             </label>
 
@@ -1056,7 +1056,7 @@ if (scope3Data) {
 
                             <label className="block text-sm font-medium text-gray-700 mb-2">
 
-                                Waste Generated
+                                Waste Generated in tonne
 
                             </label>
 
@@ -1085,7 +1085,7 @@ if (scope3Data) {
 
                             <label className="block text-sm font-medium text-gray-700 mb-2">
 
-                                Waste Recycled
+                                Waste Recycled in tonne
 
                             </label>
 
